@@ -6,6 +6,8 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
+import debug_toolbar
+
 from search import views as search_views
 
 urlpatterns = [
@@ -13,6 +15,8 @@ urlpatterns = [
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     path("search/", search_views.search, name="search"),
+
+    path('__debug__/', include(debug_toolbar.urls)),
 ]
 
 

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+
+{% block content %}
+    <style>
+        .jumbotron{
+            color: #fff !important;
+        }
+        h1.banner_title{
+            text-shadow: 4px 4px #5a0d10;
+        }
+    </style>
+
+    {% image self.banner_image fill-900x400-c100 as img %}
+
+    <div class="jumbotron" style="background-image: url('{{ img.url }}'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+        <h1 class="display-4 font-weight-bold banner_title">{{ self.banner_title }}</h1>
+        <div class="lead">{{ self.banner_subtitle|richtext }}</div>
+        {% if self.banner_cta %}
+            <a class="btn btn-primary btn-lg" href="#" role="button">@todo</a>
+        {% endif %}
+    </div>
+{% endblock %}
