@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+
+{% block content %}
+    <div class="container">
+        <div>
+        <h2>{{ self.subtitle }}</h2><hr/>
+    </div>
+
+    {% for block in page.content %}
+        {% include_block block %}
+    {% endfor %}
+    </div>
+{% endblock %}

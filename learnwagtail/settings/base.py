@@ -48,6 +48,8 @@ INSTALLED_APPS = [
 LOCAL_APPS = [
     "home",
     "search",
+    "flex",
+    "streams",
 ]
 
 THIRD_PARTY_APPS = []

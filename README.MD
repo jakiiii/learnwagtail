@@ -1,2 +1,1 @@
-#Learn Django CMS (WAGTAIL)
-
+# Learn Django CMS (WAGTAIL)
