@@ -3,13 +3,14 @@
 
 
 {% block content %}
-    <div class="container">
-        <div>
-        <h2>{{ self.subtitle }}</h2><hr/>
+<div class="container">
+    <div>
+        <h2>{{ self.subtitle }}</h2>
+        <hr/>
     </div>
 
     {% for block in page.content %}
-        {% include_block block %}
+    {% include_block block %}
     {% endfor %}
-    </div>
+</div>
 {% endblock %}
