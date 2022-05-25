@@ -3,26 +3,47 @@
 
 
 {% block content %}
-    <style>
-        .jumbotron{
-            color: #fff !important;
-        }
-        h1.banner_title{
-            text-shadow: 4px 4px #5a0d10;
-        }
-    </style>
+<style>
+    .jumbotron {
+        color: #fff !important;
+    }
 
-    {% image self.banner_image fill-900x400-c100 as img %}
+    h1.banner_title {
+        text-shadow: 4px 4px #5a0d10;
+    }
+</style>
 
-    <div class="jumbotron" style="background-image: url('{{ img.url }}'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
-        <h1 class="display-4 font-weight-bold banner_title">{{ self.banner_title }}</h1>
-        <div class="lead">{{ self.banner_subtitle|richtext }}</div>
-        {% if self.banner_cta %}
-            <a href="#" class="btn btn-secondary btn-lg text-center" style="width: 8rem">@todo</a>
-        {% endif %}
+<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        {% for loop in self.carousel_images.all %}
+        {% image loop.carousel_image fill-900x400 as img %}
+        <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+            <img class="d-block w-100" src="{{ img.url }}" alt="{{ img.alt }}">
+        </div>
+        {% endfor %}
     </div>
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
 
-    {% for block in page.content %}
-        {% include_block block %}
-    {% endfor %}
+{% for block in page.content %}
+{% include_block block %}
+{% endfor %}
+
+{% image self.banner_image fill-900x400-c100 as img %}
+
+<div class="jumbotron"
+     style="background-image: url('{{ img.url }}'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+    <h1 class="display-4 font-weight-bold banner_title">{{ self.banner_title }}</h1>
+    <div class="lead">{{ self.banner_subtitle|richtext }}</div>
+    {% if self.banner_cta %}
+    <a href="#" class="btn btn-secondary btn-lg text-center" style="width: 8rem">@todo</a>
+    {% endif %}
+</div>
 {% endblock %}
