@@ -37,9 +37,7 @@
 {% endfor %}
 
 {% image self.banner_image fill-900x400-c100 as img %}
-
-<div class="jumbotron"
-     style="background-image: url('{{ img.url }}'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+<div class="jumbotron" style="background-image: url('{{ img.url }}'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
     <h1 class="display-4 font-weight-bold banner_title">{{ self.banner_title }}</h1>
     <div class="lead">{{ self.banner_subtitle|richtext }}</div>
     {% if self.banner_cta %}
