@@ -20,11 +20,11 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-
 # Application definition
 
 INSTALLED_APPS = [
     "wagtail.contrib.forms",
+    "wagtail.contrib.modeladmin",
     "wagtail.contrib.redirects",
     'wagtail.contrib.settings',
     "wagtail.embeds",
@@ -52,6 +52,7 @@ LOCAL_APPS = [
     "flex",
     "streams",
     "site_settings",
+    "subscribers",
 ]
 
 THIRD_PARTY_APPS = [
