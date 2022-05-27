@@ -53,6 +53,7 @@ LOCAL_APPS = [
     "streams",
     "site_settings",
     "subscribers",
+    "blog",
 ]
 
 THIRD_PARTY_APPS = [

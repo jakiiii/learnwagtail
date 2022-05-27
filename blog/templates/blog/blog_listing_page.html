@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load wagtailimages_tags %}
+
+
+{% block content %}
+    <div class="container py-4">
+        {% for post in posts %}
+        <div class="row">
+            <div class="col-sm-4">
+                {% image post.blog_image fill-200x200 as blog_img %}
+                <a href="{{ post.url }}">
+                    <img src="{{ blog_img.url }}" alt="{{ blog_img.alt }}" class="img img-thumbnail">
+                </a>
+            </div>
+            <div class="col-sm-8">
+                <a href="{{ post.url }}" class="btn btn-link">{{ post.custom_title }}</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
