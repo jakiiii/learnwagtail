@@ -7,8 +7,26 @@
 
     <img src="{{ banner.url }}" alt="{{ banner.alt }}" style="width: 100%; height: auto;">
     <div class="container mt-5 mb-5">
-        <h2>{{ self.custom_title }}</h2>
+        <h1>{{ self.custom_title }}</h1>
     </div>
+    <ul class="list-group list-group-flush">
+        {% for iter in self.blog_author.all %}
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-sm-4 text-right">
+                        <p style="font-size: 1.5rem;">{{ iter.author.name }}</p>
+                        {% if iter.author.website %}
+                            <a href="{{ iter.author.website }}" target="_blank" style="color: deepskyblue;">{{ iter.author.website }}</a>
+                        {% endif %}
+                    </div>
+                    <div class="col-sm-8">
+                        {% image iter.author.image fill-100x100 as author_image %}
+                        <img src="{{ author_image.url }}" alt="{{ iter.author.name }}" class="img-circle">
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
     <hr/>
     <div class="container">
         <div class="row">

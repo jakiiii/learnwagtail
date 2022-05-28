@@ -1,13 +1,74 @@
 from django.db import models
 from django.shortcuts import render
 
-from wagtail.models import Page
+from wagtail.models import Page, Orderable
 from wagtail.core.fields import StreamField
+from modelcluster.fields import ParentalKey
 from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
+from wagtail.snippets.edit_handlers import SnippetChooserPanel
+from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel, InlinePanel
+
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
+from wagtail.snippets.models import register_snippet
 
 from streams import blocks
+
+
+class BlogAuthorsOrderable(Orderable):
+    page = ParentalKey(
+        "blog.BlogDetailsPage",
+        related_name="blog_author"
+    )
+    author = models.ForeignKey(
+        "blog.BlogAuthor",
+        on_delete=models.SET_NULL,
+        null=True
+    )
+
+    panel = [
+        SnippetChooserPanel("author")
+    ]
+
+
+@register_snippet
+class BlogAuthor(models.Model):
+    # blog author for snippets
+    name = models.CharField(
+        max_length=100,
+    )
+    website = models.URLField(
+        null=True,
+        blank=True
+    )
+    image = models.ForeignKey(
+        "wagtailimages.Image",
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="+"
+    )
+
+    panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel("name"),
+                ImageChooserPanel("image")
+            ],
+            heading="Name and Image"
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("website")
+            ]
+        )
+    ]
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Blog Author"
+        verbose_name_plural = "Blog Authors"
+        db_table = "blog_author"
 
 
 class BlogListingPage(RoutablePageMixin, Page):
@@ -27,7 +88,7 @@ class BlogListingPage(RoutablePageMixin, Page):
     def get_context(self, request, *args, **kwargs):
         context = super(BlogListingPage, self).get_context(request, *args, **kwargs)
         context['posts'] = BlogDetailsPage.objects.live().public()
-        context['special_link'] = self.reverse_subpage('latest_post')
+        context['authors'] = BlogAuthor.objects.all()
         return context
 
     @route(r'^latest/$', name='latest_post')
@@ -77,5 +138,16 @@ class BlogDetailsPage(Page):
     content_panels = Page.content_panels + [
         FieldPanel("custom_title"),
         ImageChooserPanel("blog_image"),
+        MultiFieldPanel(
+            [
+                InlinePanel(
+                    "blog_author",
+                    label="Author",
+                    min_num=1,
+                    max_num=5,
+                )
+            ],
+            heading="Author(s)"
+        ),
         StreamFieldPanel("content")
     ]
