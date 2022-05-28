@@ -1,9 +1,10 @@
 from django.db import models
 from django.shortcuts import render
+from django import forms
 
 from wagtail.models import Page, Orderable
 from wagtail.core.fields import StreamField
-from modelcluster.fields import ParentalKey
+from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel, InlinePanel
@@ -71,6 +72,35 @@ class BlogAuthor(models.Model):
         db_table = "blog_author"
 
 
+@register_snippet
+class BlogCategory(models.Model):
+    # blog category for a snippet
+    name = models.CharField(
+        max_length=100
+    )
+    slug = models.SlugField(
+        verbose_name="slug",
+        allow_unicode=True,
+        unique=True,
+        max_length=255,
+        help_text="A slug to identify post by this category"
+    )
+
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("slug"),
+    ]
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Blog Category"
+        verbose_name_plural = "Blog Categories"
+        db_table = "blog_categories"
+        ordering = ("name",)
+
+
 class BlogListingPage(RoutablePageMixin, Page):
     template = "blog/blog_listing_page.html"
 
@@ -89,6 +119,7 @@ class BlogListingPage(RoutablePageMixin, Page):
         context = super(BlogListingPage, self).get_context(request, *args, **kwargs)
         context['posts'] = BlogDetailsPage.objects.live().public()
         context['authors'] = BlogAuthor.objects.all()
+        context['categories'] = BlogCategory.objects.all()
         return context
 
     @route(r'^latest/$', name='latest_post')
@@ -134,6 +165,10 @@ class BlogDetailsPage(Page):
         null=True,
         blank=True
     )
+    categories = ParentalManyToManyField(
+        "blog.BlogCategory",
+        blank=True
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel("custom_title"),
@@ -148,6 +183,15 @@ class BlogDetailsPage(Page):
                 )
             ],
             heading="Author(s)"
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel(
+                    "categories",
+                    widget=forms.CheckboxSelectMultiple
+                )
+            ],
+            heading="Categories"
         ),
         StreamFieldPanel("content")
     ]

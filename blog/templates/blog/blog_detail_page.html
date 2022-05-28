@@ -30,10 +30,18 @@
     <hr/>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 offset-lg-2">
+            <div class="col-lg-8">
                 {% for block in page.content %}
                     {% include_block block %}
                 {% endfor %}
+            </div>
+            <div class="col-lg-4">
+                <ul class="list-group">
+                    <li class="list-group-item active">Categories</li>
+                    {% for cat in self.categories.all %}
+                    <a href="{{ self.get_parent.url }}?category={{ cat.slug }}" class="list-group-item list-group-item-action">{{ cat.name }}</a>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>
