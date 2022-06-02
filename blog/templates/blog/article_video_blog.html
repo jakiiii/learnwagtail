@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "blog/blog_detail_page.html" %}
 
 {% load wagtailimages_tags wagtailcore_tags %}
 
@@ -7,7 +7,13 @@
 
     <img src="{{ banner.url }}" alt="{{ banner.alt }}" style="width: 100%; height: auto;">
     <div class="container mt-5 mb-5">
-        <h1>{{ self.custom_title }}</h1>
+        <h1>
+            {% if self.custom_title %}
+                {{ self.custom_title }}
+            {% else %}
+                {{ self.title }}
+            {% endif %}
+        </h1>
     </div>
     <ul class="list-group list-group-flush">
         {% for iter in self.blog_author.all %}
@@ -30,18 +36,12 @@
     <hr/>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-12">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/{{ self.youtube_video_id }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <hr/>
                 {% for block in page.content %}
                     {% include_block block %}
                 {% endfor %}
-            </div>
-            <div class="col-lg-4">
-                <ul class="list-group">
-                    <li class="list-group-item active">Categories</li>
-                    {% for cat in self.categories.all %}
-                    <a href="{{ self.get_parent.url }}?category={{ cat.slug }}" class="list-group-item list-group-item-action">{{ cat.name }}</a>
-                    {% endfor %}
-                </ul>
             </div>
         </div>
     </div>

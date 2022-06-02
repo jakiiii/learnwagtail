@@ -61,6 +61,7 @@ LOCAL_APPS = [
 
 THIRD_PARTY_APPS = [
     "fontawesomefree",
+    "django_extensions",
 ]
 
 INSTALLED_APPS += LOCAL_APPS + THIRD_PARTY_APPS

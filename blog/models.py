@@ -1,6 +1,7 @@
 from django.db import models
 from django.shortcuts import render
 from django import forms
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from wagtail.models import Page, Orderable
 from wagtail.core.fields import StreamField
@@ -141,13 +142,14 @@ class BlogListingPage(RoutablePageMixin, Page):
 
 
 class BlogDetailsPage(Page):
+    # Parental Blog Detail Page
     template = "blog/blog_detail_page.html"
 
     custom_title = models.CharField(
         max_length=100,
         help_text="Overwrites the default title"
     )
-    blog_image = models.ForeignKey(
+    banner_image = models.ForeignKey(
         "wagtailimages.Image",
         on_delete=models.SET_NULL,
         null=True,
@@ -172,7 +174,116 @@ class BlogDetailsPage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("custom_title"),
-        ImageChooserPanel("blog_image"),
+        ImageChooserPanel("banner_image"),
+        MultiFieldPanel(
+            [
+                InlinePanel(
+                    "blog_author",
+                    label="Author",
+                    min_num=1,
+                    max_num=5,
+                )
+            ],
+            heading="Author(s)"
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel(
+                    "categories",
+                    widget=forms.CheckboxSelectMultiple
+                )
+            ],
+            heading="Categories"
+        ),
+        StreamFieldPanel("content")
+    ]
+
+
+# FIRST SUBCLASS BLOG POST PAGE
+class ArticleBlogPage(BlogDetailsPage):
+    # A subclassed blog post page for articles
+    template = "blog/article_blog.html"
+
+    subtitle = models.CharField(
+        max_length=100,
+        default='',
+        blank=True,
+        null=True
+    )
+    intro_image = models.ForeignKey(
+        "wagtailimages.Image",
+        on_delete=models.SET_NULL,
+        null=True,
+        help_text="Best size for this image will be 1400x400"
+    )
+
+    content_panels = Page.content_panels + [
+        MultiFieldPanel(
+            [
+                FieldPanel("custom_title"),
+                FieldPanel("subtitle"),
+            ],
+            heading="Article Title"
+        ),
+        MultiFieldPanel(
+            [
+                ImageChooserPanel("banner_image"),
+                ImageChooserPanel("intro_image"),
+            ],
+            heading="Article Image(s)"
+        ),
+        MultiFieldPanel(
+            [
+                InlinePanel(
+                    "blog_author",
+                    label="Author",
+                    min_num=1,
+                    max_num=5,
+                )
+            ],
+            heading="Author(s)"
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel(
+                    "categories",
+                    widget=forms.CheckboxSelectMultiple
+                )
+            ],
+            heading="Categories"
+        ),
+        StreamFieldPanel("content")
+    ]
+
+
+# SECOND SUBCLASS PAGE
+class VideoBlogPage(BlogDetailsPage):
+    # a video subclass page
+    template = "blog/article_video_blog.html"
+
+    youtube_video_id = models.CharField(
+        max_length=50
+    )
+
+    content_panels = Page.content_panels + [
+        MultiFieldPanel(
+            [
+                FieldPanel("custom_title"),
+            ],
+            heading="Article Title"
+        ),
+        MultiFieldPanel(
+            [
+                ImageChooserPanel("banner_image"),
+            ],
+            heading="Article Image"
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("youtube_video_id"),
+            ],
+            heading="Article Video"
+        ),
         MultiFieldPanel(
             [
                 InlinePanel(
