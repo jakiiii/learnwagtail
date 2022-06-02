@@ -118,7 +118,18 @@ class BlogListingPage(RoutablePageMixin, Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super(BlogListingPage, self).get_context(request, *args, **kwargs)
-        context['posts'] = BlogDetailsPage.objects.live().public()
+        all_posts = BlogDetailsPage.objects.live().public().order_by('-first_published_at')
+
+        paginator = Paginator(all_posts, 2)
+        page = request.GET.get("page")
+        try:
+            posts = paginator.page(page)
+        except PageNotAnInteger:
+            posts = paginator.page(1)
+        except EmptyPage:
+            posts = paginator.page(paginator.num_pages)
+        context["posts"] = posts
+
         context['authors'] = BlogAuthor.objects.all()
         context['categories'] = BlogCategory.objects.all()
         return context
