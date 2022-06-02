@@ -57,6 +57,7 @@ LOCAL_APPS = [
     "site_settings",
     "subscribers",
     "blog",
+    "menus",
 ]
 
 THIRD_PARTY_APPS = [
