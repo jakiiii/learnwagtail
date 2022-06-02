@@ -4,3 +4,4 @@
 TODO
 ```
 - [WagtailMenus](https://github.com/jazzband/wagtailmenus)
+- Extend the Draftail RichText
