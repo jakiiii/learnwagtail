@@ -20,6 +20,8 @@ class FormField(AbstractFormField):
 
 class ContactPage(WagtailCaptchaEmailForm):  # (AbstractEmailForm):
     template = 'contact/contact_page.html'
+    subpage_types = []
+    parent_page_types = ['home.HomePage']
 
     intro = models.CharField(
         max_length=200,

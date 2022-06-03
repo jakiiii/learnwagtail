@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.urls import include, path
+# from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 
 from wagtail.admin import urls as wagtailadmin_urls
@@ -15,8 +16,8 @@ urlpatterns = [
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
-    path("search/", search_views.search, name="search"),
 
+    path("search/", search_views.search, name="search"),
     path("sitemap.xml", sitemap),
     path('__debug__/', include(debug_toolbar.urls)),
 ]

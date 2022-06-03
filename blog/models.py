@@ -106,6 +106,8 @@ class BlogCategory(models.Model):
 
 class BlogListingPage(RoutablePageMixin, Page):
     template = "blog/blog_listing_page.html"
+    subpage_types = ['blog.ArticleBlogPage', 'blog.VideoBlogPage']
+    max_count = 1
 
     custom_title = models.CharField(
         max_length=100,
@@ -157,6 +159,8 @@ class BlogListingPage(RoutablePageMixin, Page):
 class BlogDetailsPage(Page):
     # Parental Blog Detail Page
     template = "blog/blog_detail_page.html"
+    subpage_types = []
+    parent_page_types = ['blog.BlogListingPage']
 
     custom_title = models.CharField(
         max_length=100,

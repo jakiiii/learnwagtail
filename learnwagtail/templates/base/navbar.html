@@ -3,6 +3,7 @@
 {% get_menu "megamind" as navigation %}
 {% get_menu "introduce-megamind" as introduce %}
 {% get_menu "contact" as contact %}
+{% get_menu "blog" as blog %}
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
@@ -20,10 +21,11 @@
                        href="{{ item.link }}">{{ item.title }}</a>
                 </li>
                 {% endfor %}
-
+                {% for item in blog.menu_items.all %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/blog/">Blog</a>
+                    <a class="nav-link" {% if item.open_in_new_tab %}target="_blank" {% endif %} href="{{ item.link }}">{{ item.title }}</a>
                 </li>
+                {% endfor %}
                 {% for intro in introduce.menu_items.all %}
                 <li class="nav-item">
                     <a class="nav-link" {% if intro.open_in_new_tab %}target="_blank" {% endif %}

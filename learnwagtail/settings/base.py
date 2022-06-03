@@ -24,6 +24,8 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # Application definition
 
 INSTALLED_APPS = [
+    # "wagtail_localize",
+    # "wagtail_localize.locales",
     "wagtail.contrib.forms",
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.redirects",
@@ -78,8 +80,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django.middleware.security.SecurityMiddleware",
-    "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+    # "django.middleware.security.SecurityMiddleware",
+    # "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
 ROOT_URLCONF = "learnwagtail.urls"
@@ -97,7 +99,9 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                'wagtail.contrib.settings.context_processors.settings'
+                "wagtail.contrib.settings.context_processors.settings",
+                # "django.middleware.locale.LocaleMiddleware",
+                # "wagtail.contrib.redirects.middleware.RedirectMiddleware",
             ],
         },
     },
@@ -141,13 +145,16 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Dhaka"
 
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
+
+# Localization
+# WAGTAIL_I18N_ENABLED = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -200,3 +207,13 @@ WAGTAILADMIN_BASE_URL = "http://example.com"
 RECAPTCHA_PUBLIC_KEY = config('RECAPTCHA_PUBLIC_KEY')
 RECAPTCHA_PRIVATE_KEY = config('RECAPTCHA_PRIVATE_KEY')
 NOCAPTCHA = config('NOCAPTCHA', cast=bool)  # Do the captcha will show or not
+
+
+# Localization
+# WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
+#     ("en", "English"),
+#     ("fr", "French"),
+#     ("bn", 'Bengali'),
+#     ("ar", 'Arabic'),
+# ]
+#
