@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags %}
+
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="display-2 font-weight-bold">{{ page.title }}</h2><hr/>
+
+    <h5>{{ self.intro }}</h5>
+    <br/>
+    <form action="{% pageurl page %}" method="POST">{% csrf_token %}
+        <ul class="contact-form">
+            {{ form.as_ul }}
+        </ul>
+        <button type="submit" class="btn btn-success"> Submit Form </button>
+    </form>
+</div>
+{% endblock %}

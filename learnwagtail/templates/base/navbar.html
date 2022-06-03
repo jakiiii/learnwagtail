@@ -2,6 +2,7 @@
 
 {% get_menu "megamind" as navigation %}
 {% get_menu "introduce-megamind" as introduce %}
+{% get_menu "contact" as contact %}
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
@@ -26,6 +27,11 @@
                 {% for intro in introduce.menu_items.all %}
                 <li class="nav-item">
                     <a class="nav-link" {% if intro.open_in_new_tab %}target="_blank"{% endif %} href="{{ intro.link }}">{{ intro.title }}</a>
+                </li>
+                {% endfor %}
+                {% for cont in contact.menu_items.all %}
+                <li class="nav-item">
+                    <a class="nav-link" {% if cont.open_in_new_tab %}target="_blank"{% endif %} href="{{ cont.link }}">{{ cont.title }}</a>
                 </li>
                 {% endfor %}
             </ul>
