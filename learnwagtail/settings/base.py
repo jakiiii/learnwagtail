@@ -64,6 +64,8 @@ LOCAL_APPS = [
 THIRD_PARTY_APPS = [
     "fontawesomefree",
     "django_extensions",
+    "captcha",
+    "wagtailcaptcha",
 ]
 
 INSTALLED_APPS += LOCAL_APPS + THIRD_PARTY_APPS
@@ -191,3 +193,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 WAGTAILADMIN_BASE_URL = "http://example.com"
+
+
+# Recaptcha Settings
+RECAPTCHA_PUBLIC_KEY = "6LeCUEAgAAAAAM7E0qEXtZ_q6WZLqyIlQfeQZm4L"
+RECAPTCHA_PRIVATE_KEY = "6LeCUEAgAAAAACZlEGCGGV4oxvwK3ecdPkUM98aA"
+NOCAPTCHA = True  # Do the captcha will show or not
