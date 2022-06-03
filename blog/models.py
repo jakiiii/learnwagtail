@@ -2,6 +2,8 @@ from django.db import models
 from django.shortcuts import render
 from django import forms
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.cache import cache
+from django.core.cache.utils import make_template_fragment_key
 
 from wagtail.models import Page, Orderable
 from wagtail.core.fields import StreamField
@@ -208,6 +210,11 @@ class BlogDetailsPage(Page):
         ),
         StreamFieldPanel("content")
     ]
+
+    def save(self, *args, **kwargs):
+        post_cash_key = make_template_fragment_key('blog_post_preview', [self.id])
+        cache.delete(post_cash_key)
+        return super(BlogDetailsPage, self).save(*args, **kwargs)
 
 
 # FIRST SUBCLASS BLOG POST PAGE

@@ -1,34 +1,38 @@
+{% load cache %}
+
 <style>
     .social-media-icon{
         font-size: 3rem;
     }
 </style>
 
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark mt-4">
-    <a class="navbar-brand" href="#">Megamind</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
-            {% if settings.site_settings.SocialMediaSettings.facebook %}
-            <li class="nav-item active">
-                <a class="nav-link social-media-icon" href="{{ settings.site_settings.SocialMediaSettings.facebook }}">
-                    <i class="fa-brands fa-facebook-square"></i>
-                </a>
-            </li>
-            {% endif %}
-            {% if settings.site_settings.SocialMediaSettings.twitter %}
-            <li class="nav-item">
-                <a class="nav-link social-media-icon" href="{{ settings.site_settings.SocialMediaSettings.twitter }}"><i class="fa-brands fa-twitter-square"></i></a>
-            </li>
-            {% endif %}
-            {% if settings.site_settings.SocialMediaSettings.youtube %}
-            <li class="nav-item">
-                <a class="nav-link social-media-icon" href="{{ settings.site_settings.SocialMediaSettings.youtube }}"><i class="fa-brands fa-youtube"></i></a>
-            </li>
-            {% endif %}
-        </ul>
-    </div>
-</nav>
+{% cache 604800 footer %}  <!-- 7 day = 604800 seconds -->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark mt-4">
+        <a class="navbar-brand" href="#">Megamind</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                {% if settings.site_settings.SocialMediaSettings.facebook %}
+                <li class="nav-item active">
+                    <a class="nav-link social-media-icon" href="{{ settings.site_settings.SocialMediaSettings.facebook }}">
+                        <i class="fa-brands fa-facebook-square"></i>
+                    </a>
+                </li>
+                {% endif %}
+                {% if settings.site_settings.SocialMediaSettings.twitter %}
+                <li class="nav-item">
+                    <a class="nav-link social-media-icon" href="{{ settings.site_settings.SocialMediaSettings.twitter }}"><i class="fa-brands fa-twitter-square"></i></a>
+                </li>
+                {% endif %}
+                {% if settings.site_settings.SocialMediaSettings.youtube %}
+                <li class="nav-item">
+                    <a class="nav-link social-media-icon" href="{{ settings.site_settings.SocialMediaSettings.youtube }}"><i class="fa-brands fa-youtube"></i></a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+{% endcache %}

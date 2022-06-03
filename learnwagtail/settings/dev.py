@@ -24,6 +24,13 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": "/home/jaki/Dev/Learn/wagtailjtro/learnwagtail/cache"
+    }
+}
+
 try:
     from .local import *
 except ImportError:

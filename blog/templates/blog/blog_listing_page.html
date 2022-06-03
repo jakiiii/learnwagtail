@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load wagtailimages_tags wagtailroutablepage_tags %}
+{% load wagtailimages_tags wagtailroutablepage_tags cache %}
 
 
 {% block content %}
@@ -12,23 +12,25 @@
             </h2>
             <hr/>
             {% for post in posts %}
-            <div class="row">
-                <div class="col-sm-4">
-                    {% image post.banner_image fill-200x200 as blog_img %}
-                    <a href="{{ post.url }}">
-                        <img src="{{ blog_img.url }}" alt="{{ blog_img.alt }}" class="img img-thumbnail">
-                    </a>
+                {% cache 86400 blog_post_preview post.id %}  <!-- 1 day = 86400 seconds  -->
+                <div class="row">
+                    <div class="col-sm-4">
+                        {% image post.banner_image fill-200x200 as blog_img %}
+                        <a href="{{ post.url }}">
+                            <img src="{{ blog_img.url }}" alt="{{ blog_img.alt }}" class="img img-thumbnail">
+                        </a>
+                    </div>
+                    <div class="col-sm-8">
+                        <a href="{{ post.url }}" style="text-decoration: none;">
+                            <h2>{{ post.custom_title }}</h2>
+                            {% if post.specific.subtitle %}
+                            <p>{{ post.specific.subtitle }}</p>
+                            {% endif %}
+                        </a>
+                        <a href="{{ post.url }}" class="btn btn-primary">Read</a>
+                    </div>
                 </div>
-                <div class="col-sm-8">
-                    <a href="{{ post.url }}" style="text-decoration: none;">
-                        <h2>{{ post.custom_title }}</h2>
-                        {% if post.specific.subtitle %}
-                        <p>{{ post.specific.subtitle }}</p>
-                        {% endif %}
-                    </a>
-                    <a href="{{ post.url }}" class="btn btn-primary">Read</a>
-                </div>
-            </div>
+                {% endcache %}
             {% endfor %}
 
             <div class="container pt-4">

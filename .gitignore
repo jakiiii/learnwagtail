@@ -166,3 +166,8 @@ staticfiles/*
 media/
 *media/
 media/*
+
+# cache
+cache/
+*cache/
+cache/*
