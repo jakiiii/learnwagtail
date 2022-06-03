@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from decouple import config
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
@@ -196,6 +197,6 @@ WAGTAILADMIN_BASE_URL = "http://example.com"
 
 
 # Recaptcha Settings
-RECAPTCHA_PUBLIC_KEY = "6LeCUEAgAAAAAM7E0qEXtZ_q6WZLqyIlQfeQZm4L"
-RECAPTCHA_PRIVATE_KEY = "6LeCUEAgAAAAACZlEGCGGV4oxvwK3ecdPkUM98aA"
-NOCAPTCHA = True  # Do the captcha will show or not
+RECAPTCHA_PUBLIC_KEY = config('RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = config('RECAPTCHA_PRIVATE_KEY')
+NOCAPTCHA = config('NOCAPTCHA', cast=bool)  # Do the captcha will show or not
