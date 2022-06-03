@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load wagtailcore_tags %}
+{% load static wagtailcore_tags %}
 
 
 {% block content %}
@@ -25,7 +25,7 @@
 
     #id_name {
         display: block;
-        width: 50%;
+        width: 100%;
         padding: 0.375rem 0.75rem;
         font-size: 1rem;
         line-height: 1.5;
@@ -39,7 +39,7 @@
 
     #id_email {
         display: block;
-        width: 50%;
+        width: 100%;
         padding: 0.375rem 0.75rem;
         font-size: 1rem;
         line-height: 1.5;
@@ -53,7 +53,7 @@
 
     #id_message {
         display: block;
-        width: 50%;
+        width: 100%;
         padding: 0.375rem 0.75rem;
         font-size: 1rem;
         line-height: 1.5;
@@ -64,6 +64,13 @@
         border-radius: 0.25rem;
         transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     }
+    .contact{
+        padding-top: 4rem;
+    }
+    .contact-image{
+        width: 30rem;
+        padding: 1rem;
+    }
 
 </style>
 
@@ -71,13 +78,22 @@
     <div class="card text-white bg-secondary mb-3" style="max-width: 100%;">
         <div class="card-header">{{ page.title }}</div>
         <div class="card-body">
-            <p class="card-title">{{ self.intro }}</p>
-            <form action="{% pageurl page %}" method="POST">{% csrf_token %}
-                <ul class="contact-form">
-                    {{ form.as_ul }}
-                </ul>
-                <button type="submit" class="btn btn-success"> Submit Form</button>
-            </form>
+            <div class="row">
+                <div class="col">
+                    <p class="card-title">{{ self.intro }}</p>
+                    <form action="{% pageurl page %}" method="POST">{% csrf_token %}
+                        <ul class="contact-form">
+                            {{ form.as_ul }}
+                        </ul>
+                        <button type="submit" class="btn btn-success"> Submit Form</button>
+                    </form>
+                </div>
+                <div class="col">
+                    <div class="contact">
+                        <img src="{% static 'image/contact.png' %}" class="img img-responsive img-thumbnail contact-image">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

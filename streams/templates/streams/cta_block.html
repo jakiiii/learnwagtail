@@ -2,13 +2,13 @@
 
 <div class="container py-4">
     <div class="row">
-        <div class="col-lg-6">
+        <div class="sm">
             <h2>{{ self.title }}</h2>
             <p>{{ self.text|richtext }}</p>
             {% if self.button_page %}
-                <a href="{{ self.button_page.url }}" class="btn btn-sm btn-info">{{ self.button_text }}</a>
+            <a href="{{ self.button_page.url }}" class="btn btn-sm btn-info">{{ self.button_text }}</a>
             {% else %}
-                <a href="{{ self.button_url }}" class="btn-link">{{ self.button_text }}</a>
+            <a href="{{ self.button_url }}" class="btn-link">{{ self.button_text }}</a>
             {% endif %}
         </div>
     </div>
