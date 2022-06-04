@@ -52,6 +52,12 @@
                 <img src="{{ intro.url }}" alt="{{ intro.alt }}" style="width: 100%; height: 8rem;">
             </div>
             {% endif %}
+            <br/>
+            {% if page.tags.count %}
+                {% for tag in page.tags.all %}
+                    <a href="/blog/?tag={{ tag.slug }}" class="btn btn-sm btn-info" style="margin: 2px">{{ tag }}</a>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

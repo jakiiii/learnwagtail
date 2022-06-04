@@ -43,6 +43,12 @@
                     {% include_block block %}
                 {% endfor %}
             </div>
+            <br/>
+            {% if page.tags.count %}
+                {% for tag in page.tags.all %}
+                    <a href="/blog/?tag={{ tag.slug }}" class="btn btn-sm btn-info" style="margin: 2px">{{ tag }}</a>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

@@ -7,13 +7,16 @@ from django.core.cache.utils import make_template_fragment_key
 
 from wagtail.models import Page, Orderable
 from wagtail.core.fields import StreamField
-from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel, InlinePanel
 
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.snippets.models import register_snippet
+
+from taggit.models import TaggedItemBase
+from modelcluster.fields import ParentalKey, ParentalManyToManyField
+from modelcluster.contrib.taggit import ClusterTaggableManager
 
 from streams import blocks
 
@@ -106,6 +109,7 @@ class BlogCategory(models.Model):
 
 class BlogListingPage(RoutablePageMixin, Page):
     template = "blog/blog_listing_page.html"
+    ajax_template = "blog/blog_listing_page_ajax.html"
     subpage_types = ['blog.ArticleBlogPage', 'blog.VideoBlogPage']
     max_count = 1
 
@@ -123,6 +127,14 @@ class BlogListingPage(RoutablePageMixin, Page):
     def get_context(self, request, *args, **kwargs):
         context = super(BlogListingPage, self).get_context(request, *args, **kwargs)
         all_posts = BlogDetailsPage.objects.live().public().order_by('-first_published_at')
+
+        tag = request.GET.get('tag', None)
+        if tag:
+            all_posts = all_posts.filter(tags__slug__in=[tag])
+
+        category = request.GET.get('category', None)
+        if category:
+            all_posts = all_posts.filter(categories__slug__in=[category])
 
         paginator = Paginator(all_posts, 2)
         page = request.GET.get("page")
@@ -154,6 +166,14 @@ class BlogListingPage(RoutablePageMixin, Page):
             }
         )
         return sitemap
+
+
+class BlogPageTags(TaggedItemBase):
+    content_object = ParentalKey(
+        'blog.BlogDetailsPage',
+        on_delete=models.CASCADE,
+        related_name='tagged_items'
+    )
 
 
 class BlogDetailsPage(Page):
@@ -188,10 +208,15 @@ class BlogDetailsPage(Page):
         "blog.BlogCategory",
         blank=True
     )
+    tags = ClusterTaggableManager(
+        through=BlogPageTags,
+        blank=True
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel("custom_title"),
         ImageChooserPanel("banner_image"),
+        FieldPanel("tags"),
         MultiFieldPanel(
             [
                 InlinePanel(
@@ -254,6 +279,7 @@ class ArticleBlogPage(BlogDetailsPage):
             ],
             heading="Article Image(s)"
         ),
+        FieldPanel("tags"),
         MultiFieldPanel(
             [
                 InlinePanel(
@@ -300,6 +326,7 @@ class VideoBlogPage(BlogDetailsPage):
             ],
             heading="Article Image"
         ),
+        FieldPanel("tags"),
         MultiFieldPanel(
             [
                 FieldPanel("youtube_video_id"),

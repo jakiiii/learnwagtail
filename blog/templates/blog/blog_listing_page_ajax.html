@@ -1,0 +1,23 @@
+<!--{% load wagtailimages_tags wagtailroutablepage_tags cache %}-->
+
+<!--{% for post in posts %}-->
+<!--{% cache 86400 blog_post_preview post.id %}  &lt;!&ndash; 1 day = 86400 seconds  &ndash;&gt;-->
+<!--<div class="row">-->
+<!--    <div class="col-sm-4">-->
+<!--        {% image post.banner_image fill-200x200 as blog_img %}-->
+<!--        <a href="{{ post.url }}">-->
+<!--            <img src="{{ blog_img.url }}" alt="{{ blog_img.alt }}" class="img img-thumbnail">-->
+<!--        </a>-->
+<!--    </div>-->
+<!--    <div class="col-sm-8">-->
+<!--        <a href="{{ post.url }}" style="text-decoration: none;">-->
+<!--            <h2>{{ post.custom_title }}</h2>-->
+<!--            {% if post.specific.subtitle %}-->
+<!--            <p>{{ post.specific.subtitle }}</p>-->
+<!--            {% endif %}-->
+<!--        </a>-->
+<!--        <a href="{{ post.url }}" class="btn btn-primary">Read</a>-->
+<!--    </div>-->
+<!--</div>-->
+<!--{% endcache %}-->
+<!--{% endfor %}-->
