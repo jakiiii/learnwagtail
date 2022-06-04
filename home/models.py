@@ -6,7 +6,7 @@ from wagtail.models import Page, Orderable
 from wagtail.core.fields import StreamField
 from wagtail.core.fields import RichTextField
 from wagtail.admin.edit_handlers import (
-    FieldPanel, PageChooserPanel, StreamFieldPanel, InlinePanel, MultiFieldPanel
+    FieldPanel, PageChooserPanel, StreamFieldPanel, InlinePanel, MultiFieldPanel, ObjectList, TabbedInterface
 )
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
@@ -91,6 +91,30 @@ class HomePage(RoutablePageMixin, Page):
         ),
         StreamFieldPanel("content"),
     ]
+
+    # promote_panels = []
+    # settings_panels = []
+
+    banner_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel("banner_title"),
+                FieldPanel("banner_subtitle"),
+                ImageChooserPanel("banner_image"),
+                PageChooserPanel("banner_cta"),
+            ],
+            heading="Banner Options",
+        )
+    ]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(content_panels, heading="Content"),
+            ObjectList(banner_panels, heading="Banner Settings"),
+            ObjectList(Page.promote_panels, heading="Promotional Staff"),
+            ObjectList(Page.settings_panels, heading="Settings Staff"),
+        ]
+    )
 
     class Meta:
         verbose_name = "Home Page"
