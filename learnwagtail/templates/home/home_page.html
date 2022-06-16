@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load static wagtailcore_tags wagtailimages_tags %}
 
 
 {% block content %}
@@ -44,4 +44,28 @@
     <a href="#" class="btn btn-secondary btn-lg text-center" style="width: 8rem">@todo</a>
     {% endif %}
 </div>
+
+<!--<div class="container py-4">-->
+<!--    <div class="card text-white bg-secondary mb-3" style="max-width: 100%;">-->
+<!--        <div class="card-header">{{ page.title }}</div>-->
+<!--        <div class="card-body">-->
+<!--            <div class="row">-->
+<!--                <div class="col">-->
+<!--                    <p class="card-title">{{ self.intro }}</p>-->
+<!--                    <form action="{% pageurl page %}" method="POST">{% csrf_token %}-->
+<!--                        <ul class="contact-form">-->
+<!--                            {{ form.as_ul }}-->
+<!--                        </ul>-->
+<!--                        <button type="submit" class="btn btn-success"> Submit Form</button>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--                <div class="col">-->
+<!--                    <div class="contact">-->
+<!--                        <img src="{% static 'image/contact.png' %}" class="img img-responsive img-thumbnail contact-image">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 {% endblock %}

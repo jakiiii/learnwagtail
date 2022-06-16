@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.functional import cached_property
 
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
@@ -48,3 +49,15 @@ class ContactPage(WagtailCaptchaEmailForm):  # (AbstractEmailForm):
             heading="Email Settings"
         ),
     ]
+
+    @cached_property
+    def home_page(self):
+        return self.get_parent().specific
+
+    def get_context(self, request, *args, **kwargs):
+        context = super(ContactPage, self).get_context(request, *args, **kwargs)
+        context["home_page"] = self.home_page
+        return context
+
+    def get_form_fields(self):
+        return self.form_fields.all()
