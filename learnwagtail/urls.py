@@ -10,6 +10,7 @@ from wagtail.documents import urls as wagtaildocs_urls
 
 import debug_toolbar
 
+from learnwagtail.api import api_router
 from search import views as search_views
 
 urlpatterns = [
@@ -18,6 +19,9 @@ urlpatterns = [
     path("documents/", include(wagtaildocs_urls)),
 
     path("search/", search_views.search, name="search"),
+
+    path('api/v2/', api_router.urls),
+
     path("sitemap.xml", sitemap),
     path('__debug__/', include(debug_toolbar.urls)),
 ]
